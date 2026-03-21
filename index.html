@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink & Syntax</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    
+    <div class="ui-bar">
+        <span class="clock" id="clock">00:00:00</span>
+        <span class="music-status">♫ lofi_radio_v1.mp3 [paused]</span>
+    </div>
+
+    <div class="container">
+        <!-- Landing -->
+        <section id="landing" class="screen">
+            <h1 class="glitch" data-text="Ink & Syntax">Ink & Syntax</h1>
+            <p class="status-line"><span class="prompt">></span> quietly compiling<span class="cursor">_</span></p>
+        </section>
+
+        <!-- Section 1: About -->
+        <section id="about" class="content-block">
+            <div class="terminal-header">
+                <span class="btn red"></span>
+                <span class="btn yellow"></span>
+                <span class="btn green"></span>
+                <span class="title">user@mind:~/thoughts</span>
+            </div>
+            <div class="terminal-body">
+                <p>somewhere between thoughts and code.</p>
+                <p>i write things down so they don’t disappear.</p>
+                <p class="comment">// sometimes they still do.</p>
+                <br>
+                <p class="highlight">i’m building, learning, and figuring it out as i go.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: What I Do -->
+        <section id="what-i-do" class="content-block">
+            <h2>what_im_working_on.log</h2>
+            <ul>
+                <li>[ ] a productivity application that combines note-taking and study utilities with ambient sound controls</li>
+                <li>[✓] a self-hosted, offline-first intelligent chatbot designed to learn and grow with user interaction, with the use of json files</li>
+                <li>[ ] a distraction-free web browser designed to redirect dopamine and increase productivity and learning while searching</li>
+            </ul>
+        </section>
+
+        <!-- Section 3: Projects -->
+        <section id="projects" class="content-block">
+            <h2>./projects</h2>
+            <p class="subtitle">nothing perfect. just progress.</p>
+            <div class="project-list">
+
+                <div class="project-item">
+                    <span class="project-name">Nova</span>
+                    <span class="project-desc">a self-hosted, offline-first intelligent chatbot designed to learn and grow with user interaction, with the use of json files</span>
+                </div>
+
+                <div class="project-item">
+                    <span class="project-name">LoFi</span>
+                    <span class="project-desc">a productivity application that combines note-taking and study utilities with ambient sound controls</span>
+                </div>
+            </div>
+
+                <div class="project-item">
+                    <span class="project-name">Drift</span>
+                    <span class="project-desc">a distraction-free web browser designed to redirect dopamine and increase productivity and learning while searching</span>
+                </div>
+            
+        </section>
+
+        <!-- Section 4: Now -->
+        <section id="now" class="content-block">
+            <h2>cat now.txt</h2>
+            <div class="code-block">
+                <p><span class="keyword">const</span> current_status = {</p>
+                <p class="indent">learning: <span class="string">"___"</span>,</p>
+                <p class="indent">working_on: <span class="string">"___"</span>,</p>
+                <p class="indent">thinking_about: <span class="string">"___"</span></p>
+                <p>}</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Contact -->
+        <section id="contact" class="content-block center-text">
+            <p>if you found something interesting, reach out.</p>
+            <p class="dim">or don’t. that’s fine too.</p>
+            <a href="https://discord.com/users/1382187068373074001" >send_signal()</a>
+        </section>
+
+        <footer>
+            <div class="terminal-input-area">
+                <span class="prompt">user@mind:~$</span>
+                <input type="text" id="cmd-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+            </div>
+            <p class="tiny">echo "end of line"</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
