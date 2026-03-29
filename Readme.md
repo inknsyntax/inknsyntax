@@ -30,3 +30,5 @@ a distraction-free web browser designed to redirect dopamine and increase produc
 
 ## contact
 https://discord.com/users/1382187068373074001
+image_2026-03-29_105033112-removebg-preview.png
+
