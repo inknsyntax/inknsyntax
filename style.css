@@ -1,11 +1,12 @@
 :root {
-    --bg-color: #0d0d0d;
-    --text-color: #dcdccc;
-    --dim-color: #636363;
-    --accent-color: #5faf5f; /* Softer, older green */
-    --highlight-color: #dca3a3; /* Muted Red */
-    --glow-color: rgba(95, 175, 95, 0.4);
-    --crt-bg: rgba(18, 16, 16, 0.65);
+    --bg-color: #1a1a1a;
+    --text-color: #e8e8e8;
+    --dim-color: #8a8a8a;
+    --accent-color: #a8b8a8; /* Soft sage green */
+    --highlight-color: #d4a5a5; /* Warm muted rose */
+    --secondary-accent: #8fa8c8; /* Soft blue */
+    --glow-color: rgba(168, 184, 168, 0.2);
+    --crt-bg: rgba(18, 16, 16, 0.35);
     --font-primary: 'Fira Code', 'IBM Plex Mono', monospace;
 }
 
@@ -18,13 +19,12 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
     letter-spacing: -0.5px;
-    height: 100vh;
-    animation: textShadow 1.6s infinite; /* Text Flicker */
+    animation: none;
 }
 
-/* CRT EFFECTS - THE TRICKS */
+/* CRT EFFECTS - SUBTLE & CALM */
 .crt-overlay {
-    background: radial-gradient(circle, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 100%), linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background: radial-gradient(circle, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
     background-size: 100% 2px, 3px 100%;
     position: fixed;
     top: 0;
@@ -33,11 +33,12 @@ body {
     height: 100%;
     z-index: 10;
     pointer-events: none;
+    opacity: 0.4;
 }
 
 .scanlines {
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 4px, 6px 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%);
+    background-size: 100% 4px;
     position: fixed;
     top: 0;
     left: 0;
@@ -45,7 +46,7 @@ body {
     height: 100%;
     z-index: 11;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.2;
 }
 
 .noise {
@@ -56,7 +57,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 12;
-    opacity: 0.05;
+    opacity: 0.02;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABMTExERERmZmYzMzMyMjJOUl6aAAAACHRSTlMAMwAzzMz//wDlHZxVAAAAJElEQVQ4y2NgAAM2CgBjE46CgAGKh4KAAaKHgwAGKDaCgIGCAgAJ0AIdygwZwgAAAABJRU5ErkJggg==');
     animation: grain 0.5s steps(1) infinite;
 }
@@ -111,10 +112,23 @@ body {
 .music-status {
     font-family: var(--font-primary);
     cursor: pointer;
+    background: rgba(168, 184, 168, 0.12);
+    border: 1px solid var(--dim-color);
+    color: var(--dim-color);
+    border-radius: 4px;
+    padding: 0.15rem 0.55rem;
+    transition: all 0.25s ease;
 }
 
 .music-status:hover {
     color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.music-status.playing {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 12px rgba(168, 184, 168, 0.22);
 }
 
 /* Terminal Input for Commands */
@@ -185,9 +199,10 @@ body {
 
 h1 {
     font-weight: 300;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    color: var(--text-color);
 }
 
 .status-line {
@@ -209,10 +224,11 @@ h1 {
     50% { opacity: 0; }
 }
 
-/* Glitch Effect */
+/* Glitch Effect - Subtle */
 .glitch {
     position: relative;
     color: var(--text-color);
+    text-shadow: 0 0 10px rgba(168, 184, 168, 0.2);
 }
 
 .glitch::before,
@@ -223,20 +239,21 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
 }
 
 .glitch::before {
     left: 2px;
-    text-shadow: -1px 0 #ff00c1;
+    text-shadow: -1px 0 rgba(168, 184, 168, 0.3);
     clip: rect(44px, 450px, 56px, 0);
-    animation: glitch-anim 5s infinite linear alternate-reverse;
+    animation: glitch-anim 8s infinite linear alternate-reverse;
 }
 
 .glitch::after {
     left: -2px;
-    text-shadow: -1px 0 #00fff9;
+    text-shadow: -1px 0 rgba(143, 168, 200, 0.3);
     clip: rect(44px, 450px, 56px, 0);
-    animation: glitch-anim2 1s infinite linear alternate-reverse;
+    animation: glitch-anim2 6s infinite linear alternate-reverse;
 }
 
 /* Content Blocks */
@@ -249,7 +266,7 @@ h1 {
 
 /* Specific Section Styles */
 .terminal-header {
-    background: #1e1e1e;
+    background: #252525;
     padding: 0.5rem;
     border-radius: 4px 4px 0 0;
     display: flex;
@@ -276,10 +293,10 @@ h1 {
 }
 
 .terminal-body {
-    background: #111;
+    background: #222;
     padding: 1rem;
     border-radius: 0 0 4px 4px;
-    border: 1px solid #1e1e1e;
+    border: 1px solid #2a2a2a;
 }
 
 .comment {
@@ -295,6 +312,14 @@ h1 {
 ul {
     list-style: none;
     padding: 0;
+}
+
+h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
 }
 
 li {
@@ -321,11 +346,12 @@ li::before {
 }
 
 .code-block {
-    background: #111;
+    background: #222;
     padding: 1rem;
     border-radius: 4px;
     font-size: 0.9rem;
-    color: #ccc;
+    color: #d8d8d8;
+    border: 1px solid #2a2a2a;
 }
 
 .keyword { color: #c678dd; } /* Purple */
@@ -361,6 +387,125 @@ footer {
     margin-bottom: 2rem;
     opacity: 0.3;
     font-size: 0.8rem;
+}
+
+.footer-message {
+    font-size: 0.85rem;
+}
+
+/* Hobbies Grid Section */
+.hobbies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.hobby-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.hobby-card {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid var(--dim-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.hobby-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(168, 184, 168, 0.1), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
+}
+
+.hobby-card:hover::before {
+    left: 100%;
+}
+
+.hobby-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px rgba(168, 184, 168, 0.15);
+    transform: translateY(-2px);
+}
+
+.hobby-card[data-category="chess"]:hover {
+    border-color: var(--secondary-accent);
+    box-shadow: 0 0 20px rgba(143, 168, 200, 0.15);
+}
+
+.hobby-card[data-category="music"]:hover {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 20px rgba(212, 165, 165, 0.15);
+}
+
+.hobby-card[data-category="gaming"]:hover {
+    border-color: #c6b590;
+    box-shadow: 0 0 20px rgba(198, 181, 144, 0.18);
+}
+
+.hobby-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.hobby-card:hover .hobby-icon {
+    transform: scale(1.15);
+}
+
+.hobby-card h3 {
+    margin: 0.5rem 0 1rem 0;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.hobby-card p {
+    font-size: 0.9rem;
+    color: var(--dim-color);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.contact-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background: rgba(168, 184, 168, 0.15);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.contact-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(168, 184, 168, 0.3);
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: var(--dim-color);
+    font-style: italic;
+    margin-top: 0.5rem;
 }
 
 /* Animations Keyframes */
