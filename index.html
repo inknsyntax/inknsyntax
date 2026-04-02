@@ -16,7 +16,7 @@
     
     <div class="ui-bar">
         <span class="clock" id="clock">00:00:00</span>
-        <span class="music-status">♫ lofi_radio_v1.mp3</span>
+        <button class="music-status" id="music-toggle" type="button" aria-label="Toggle lofi beats">♫ lofi_radio_v1.mp3 [paused]</button>
     </div>
 
     <div class="container">
@@ -45,11 +45,11 @@
 
         <!-- Section 2: What I Do -->
         <section id="what-i-do" class="content-block">
-            <h2>what_i_do.log</h2>
+            <h2>what_im_working_on.log</h2>
             <ul>
-                <li>work on random projects</li>
-                <li>study and code</li>
-                <li>play video games</li>
+                <li>[ ] a productivity application that combines note-taking and study utilities with ambient sound controls</li>
+                <li>[✓] a self-hosted, offline-first intelligent chatbot designed to learn and grow with user interaction, with the use of json files</li>
+                <li>[ ] a distraction-free web browser designed to redirect dopamine and increase productivity and learning while searching</li>
             </ul>
         </section>
 
@@ -67,7 +67,6 @@
                 <div class="project-item">
                     <span class="project-name">LoFi</span>
                     <span class="project-desc">a productivity application that combines note-taking and study utilities with ambient sound controls</span>
-                    <a href="https://inknsyntax.github.io/Lofi">Learn, Organize, & File Ideas</a>
                 </div>
             </div>
 
@@ -83,26 +82,78 @@
             <h2>cat now.txt</h2>
             <div class="code-block">
                 <p><span class="keyword">const</span> current_status = {</p>
-                <p class="indent">learning: <span class="string">three.js</span>,</p>
-                <p class="indent">working_on: <span class="string">getting into university</span>,</p>
-                <p class="indent">thinking_about: <span class="string">my dog</span></p>
+                <p class="indent">learning: <span class="string">"___"</span>,</p>
+                <p class="indent">working_on: <span class="string">"___"</span>,</p>
+                <p class="indent">thinking_about: <span class="string">"___"</span></p>
                 <p>}</p>
             </div>
         </section>
 
-        <!-- Section 5: Contact -->
+        <!-- Section 5: Hobbies & Interests -->
+        <section id="hobbies" class="content-block">
+            <h2>things_i_love.md</h2>
+            <p class="subtitle">passions that keep the mind sharp and the soul calm</p>
+            <div class="hobbies-grid">
+                <a class="hobby-link" href="https://www.chess.com/member/inknsyntax" target="_blank" rel="noopener noreferrer" aria-label="Open Chess profile">
+                    <div class="hobby-card" data-category="chess">
+                        <div class="hobby-icon">♞</div>
+                        <h3>Chess</h3>
+                        <p>strategy, patience, the beauty of calculated moves. every game is a conversation.</p>
+                    </div>
+                </a>
+
+                <a class="hobby-link" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer" aria-label="Open Poetry profile">
+                    <div class="hobby-card" data-category="poetry">
+                        <div class="hobby-icon">✎</div>
+                        <h3>Poetry</h3>
+                        <p>finding meaning in silence. words as brushstrokes, emotions as canvas.</p>
+                    </div>
+                </a>
+
+                <a class="hobby-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="Open YouTube for music">
+                    <div class="hobby-card" data-category="music">
+                        <div class="hobby-icon">♫</div>
+                        <h3>Music</h3>
+                        <p>lo-fi beats, ambient soundscapes, the rhythm of focus. background to everything.</p>
+                    </div>
+                </a>
+
+                <a class="hobby-link" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer" aria-label="Open Photography profile">
+                    <div class="hobby-card" data-category="photography">
+                        <div class="hobby-icon">O</div>
+                        <h3>Photography</h3>
+                        <p>capturing moments. light, shadow, composition. seeing the world through a lens.</p>
+                    </div>
+                </a>
+
+                <a class="hobby-link" href="https://github.com/inknsyntax" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
+                    <div class="hobby-card" data-category="coding">
+                        <div class="hobby-icon">{ }</div>
+                        <h3>Coding</h3>
+                        <p>building ideas into reality. problem solving through elegant solutions and clean code.</p>
+                    </div>
+                </a>
+
+                <a class="hobby-link" href="https://discord.com/users/1382187068373074001" target="_blank" rel="noopener noreferrer" aria-label="Open Discord profile for gaming">
+                    <div class="hobby-card" data-category="gaming">
+                        <div class="hobby-icon">[]</div>
+                        <h3>Gaming</h3>
+                        <p>unwinding with friends, story worlds, and a little competitive chaos.</p>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Section 6: Contact -->
         <section id="contact" class="content-block center-text">
             <p>if you found something interesting, reach out.</p>
-            <p class="dim">or don’t. that’s fine too.</p>
-            <a href="https://discord.com/users/1382187068373074001" >send_signal()</a>
+            <p class="dim">or don't. that's fine too.</p>
+            <a href="https://discord.com/users/1382187068373074001" class="contact-btn">send_signal()</a>
         </section>
 
         <footer>
-            <div class="terminal-input-area">
-                <span class="prompt">user@mind:~$</span>
-                <input type="text" id="cmd-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
-            </div>
-            <p class="tiny">echo "end of line"</p>
+            <div class="footer-message"><span class="dim">// stay calm and keep building</span></div>
         </footer>
     </div>
     <script src="script.js"></script>
