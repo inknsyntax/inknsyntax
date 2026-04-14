@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Visual Gallery</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* The Magic Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-gap: 15px;
+        }
+
+        .photo-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* Keeps images from stretching */
+            display: block;
+        }
+
+        .caption {
+            padding: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>My Personal Media Hub</h1>
+        <p>A collection of memories, work, and art</p>
+    </header>
+
+    <section id="wallpapers">
+        <h2>Wallpaper Collage</h2>
+        <div class="gallery-grid">
+            <div class="photo-card">
+                <img src="YOUR_IMAGE_LINK_OR_PATH_HERE.png" alt="Wallpaper 1">
+                <div class="caption">Neon Sunset</div>
+            </div>
+            </div>
+    </section>
+
+    <section id="codespaces">
+        <h2>Codespaces</h2>
+        <div class="gallery-grid">
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/400x300" alt="Setup 1">
+                <div class="caption">Late Night Logic</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="photography">
+        <h2>Photography</h2>
+        <div class="gallery-grid">
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/400x300" alt="Photo 1">
+                <div class="caption">Nature Walk</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gaming">
+        <h2>Gaming Screenshots</h2>
+        <div class="gallery-grid">
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/400x300" alt="Game 1">
+                <div class="caption">Boss Fight Victory</div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
