@@ -3,167 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ink & Syntax</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Ink &amp; Syntax</title>
+    <meta name="description" content="Ink &amp; Syntax: poetry, photos, chess and small tools, written somewhere between thoughts and code.">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta property="og:title" content="Ink &amp; Syntax">
+    <meta property="og:description" content="quietly compiling. poetry, photos, chess and small tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inknsyntax.github.io/inknsyntax/">
+    <!-- add: <meta property="og:image" content="https://inknsyntax.github.io/inknsyntax/images/og.png"> -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a1a1a'/%3E%3Ctext x='4' y='22' font-family='monospace' font-size='16' fill='%23a8b8a8'%3E%3E_%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="crt-overlay"></div>
-    <div class="scanlines"></div>
-    <div class="noise"></div>
-    
-    <div class="ui-bar">
-        <span class="clock" id="clock">00:00:00</span>
-        <button class="music-status" id="music-toggle" type="button" aria-label="Toggle lofi beats">♫ lofi_radio_v1.mp3 [paused]</button>
-    </div>
+    <div class="crt" aria-hidden="true"></div>
 
-    <div class="container">
-        <!-- Landing -->
+    <header class="topbar">
+        <nav aria-label="Primary">
+            <a href="#about">~/about</a>
+            <a href="#projects">./projects</a>
+            <a href="#hobbies">things_i_love</a>
+            <a href="Photos.html">/photos</a>
+            <a href="#contact">contact</a>
+        </nav>
+        <div class="ui">
+            <span class="clock" id="clock">00:00:00</span>
+            <button class="music" id="music-toggle" type="button" aria-pressed="false" aria-label="Toggle lofi music">♫ lofi_radio_v1.mp3 [paused]</button>
+        </div>
+    </header>
+
+    <main class="container">
         <section id="landing" class="screen">
-            <h1 class="glitch" data-text="Ink & Syntax">Ink & Syntax</h1>
-            <p class="status-line"><span class="prompt">></span> quietly compiling<span class="cursor">_</span></p>
-        </section>
+            <h1>Ink &amp; Syntax</h1>
+            <p class="status-line"><span class="prompt">&gt;</span> quietly compiling<span class="cursor">_</span></p>
 
-        <!-- Section 1: About -->
-        <section id="about" class="content-block">
-            <div class="terminal-header">
-                <span class="btn red"></span>
-                <span class="btn yellow"></span>
-                <span class="btn green"></span>
-                <span class="title">user@mind:~/thoughts</span>
-            </div>
-            <div class="terminal-body">
-                <p>somewhere between thoughts and code.</p>
-                <p>i write things down so they don’t disappear.</p>
-                <p class="comment">// sometimes they still do.</p>
-                <br>
-                <p class="highlight">i’m building, learning, and figuring it out as i go.</p>
+            <div class="term" id="term">
+                <div class="term-out" id="term-out" role="log" aria-live="polite">
+                    <p class="dim">type <b>help</b> to see what this terminal can do.</p>
+                </div>
+                <label class="term-in" for="cmd-input">
+                    <span class="prompt">guest@ink:~$</span>
+                    <input id="cmd-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="try: help">
+                </label>
             </div>
         </section>
 
-        <!-- Section 2: What I Do -->
-        <section id="what-i-do" class="content-block">
-            <h2>what_im_working_on.log</h2>
-            <ul>
-                <li>[ ] a productivity application that combines note-taking and study utilities with ambient sound controls</li>
-                <li>[✓] a self-hosted, offline-first intelligent chatbot designed to learn and grow with user interaction, with the use of json files</li>
-                <li>[ ] a distraction-free web browser designed to redirect dopamine and increase productivity and learning while searching</li>
-                <li>[✓] a JSON-first filesystem creator/editor for Node.js</li>
+        <section id="about" class="block reveal">
+            <div class="win-head">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="win-title">user@mind:~/thoughts</span>
+            </div>
+            <div class="win-body">
+                <p class="type">somewhere between thoughts and code.</p>
+                <p class="type">i write things down so they don’t disappear.</p>
+                <p class="type comment">// sometimes they still do.</p>
+                <p class="type strong">i’m building, learning, and figuring it out as i go.</p>
+            </div>
+        </section>
+
+        <section id="projects" class="block reveal">
+            <h2>./projects</h2>
+            <p class="subtitle">nothing perfect. just progress.</p>
+            <!-- To link a project, wrap its name: <a href="https://github.com/inknsyntax/REPO">Nova</a> -->
+            <ul class="projects">
+                <li>
+                    <span class="status done">[✓ done]</span>
+                    <h3>Nova</h3>
+                    <p>a self-hosted, offline-first chatbot that learns from how you use it, powered by json files.</p>
+                </li>
+                <li>
+                    <span class="status done">[✓ done]</span>
+                    <h3>P.O.E.T.R.Y.</h3>
+                    <p>a json-first filesystem creator and editor for Node.js.</p>
+                </li>
+                <li>
+                    <span class="status wip">[… building]</span>
+                    <h3>LoFi</h3>
+                    <p>a productivity app that combines note-taking and study tools with ambient sound controls.</p>
+                </li>
+                <li>
+                    <span class="status wip">[… building]</span>
+                    <h3>Drift</h3>
+                    <p>a distraction-free web browser that redirects dopamine toward focus and learning while you search.</p>
+                </li>
             </ul>
         </section>
 
-        <!-- Section 3: Projects -->
-        <section id="projects" class="content-block">
-            <h2>./projects</h2>
-            <p class="subtitle">nothing perfect. just progress.</p>
-            <div class="project-list">
-
-                <div class="project-item">
-                    <span class="project-name">Nova</span>
-                    <span class="project-desc">a self-hosted, offline-first intelligent chatbot designed to learn and grow with user interaction, with the use of json files</span>
-                </div>
-
-                <div class="project-item">
-                    <span class="project-name">LoFi</span>
-                    <span class="project-desc">a productivity application that combines note-taking and study utilities with ambient sound controls</span>
-                </div>
-            </div>
-
-                <div class="project-item">
-                    <span class="project-name">Drift</span>
-                    <span class="project-desc">a distraction-free web browser designed to redirect dopamine and increase productivity and learning while searching</span>
-                </div>
-
-                <div class="project-item">
-                    <span class="project-name">P.O.E.T.R.Y.</span>
-                    <span class="project-desc">a JSON-first filesystem creator/editor for Node.js</span>
-                </div>
-
-            
-        </section>
-
-        <!-- Section 4: Now -->
-        <section id="now" class="content-block">
+        <section id="now" class="block reveal">
             <h2>cat now.txt</h2>
-            <div class="code-block">
-                <p><span class="keyword">const</span> current_status = {</p>
-                <p class="indent">learning: <span class="string">human consciousness</span>,</p>
-                <p class="indent">working_on: <span class="string">poetry</span>,</p>
-                <p class="indent">thinking_about: <span class="string">life</span></p>
-                <p>}</p>
-            </div>
+            <pre class="code"><span class="kw">const</span> current_status = {
+  learning: <span class="str">"human consciousness"</span>,
+  working_on: <span class="str">"poetry"</span>,
+  thinking_about: <span class="str">"life"</span>
+}</pre>
         </section>
 
-        <!-- Section 5: Hobbies & Interests -->
-        <section id="hobbies" class="content-block">
+        <section id="entry" class="block reveal">
+            <h2>latest_entry.txt</h2>
+            <!-- Replace the lines below with a poem of yours. One <br> per line break. -->
+            <blockquote class="poem">
+                <p>(your newest poem goes here.<br>
+                edit this block in index.html.)</p>
+                <footer class="dim">// written by inknsyntax</footer>
+            </blockquote>
+        </section>
+
+        <section id="hobbies" class="block reveal">
             <h2>things_i_love.md</h2>
             <p class="subtitle">passions that keep the mind sharp and the soul calm</p>
-            <div class="hobbies-grid">
-                <a class="hobby-link" href="https://www.chess.com/member/inknsyntax" target="_blank" rel="noopener noreferrer" aria-label="Open Chess profile">
-                    <div class="hobby-card" data-category="chess">
-                        <div class="hobby-icon">♞</div>
-                        <h3>Chess</h3>
-                        <p>strategy, patience, the beauty of calculated moves. every game is a conversation.</p>
-                    </div>
+            <div class="cards">
+                <a class="card" data-c="chess" href="https://www.chess.com/member/inknsyntax" target="_blank" rel="noopener noreferrer">
+                    <span class="icon" aria-hidden="true">♞</span>
+                    <h3>Chess</h3>
+                    <p>strategy, patience, the beauty of calculated moves. every game is a conversation.</p>
+                    <span class="hint">chess.com ↗</span>
                 </a>
-
-                <a class="hobby-link" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer" aria-label="Open Poetry profile">
-                    <div class="hobby-card" data-category="poetry">
-                        <div class="hobby-icon">✎</div>
-                        <h3>Poetry</h3>
-                        <p>finding meaning in silence. words as brushstrokes, emotions as canvas.</p>
-                    </div>
+                <a class="card" data-c="poetry" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer">
+                    <span class="icon" aria-hidden="true">✎</span>
+                    <h3>Poetry</h3>
+                    <p>finding meaning in silence. words as brushstrokes, emotions as canvas.</p>
+                    <span class="hint">instagram ↗</span>
                 </a>
-
-                <a class="hobbyh-link" href="https://inknsyntax.github.io/inknsyntax/Photos.html" target="_blank" rel="noopener noreferrer" aria-label="Check out the gallery">
-                    <div class=<hobby-card" data-category="collage">
-                        <div class="hobby-icon">[ ◉¯]</div>
-                        <h3>Collage</h3>
-                        <p>Check out the photos I take</p>
-                    </div>
+                <a class="card" data-c="collage" href="Photos.html">
+                    <span class="icon" aria-hidden="true">[ ◉¯]</span>
+                    <h3>Collage</h3>
+                    <p>wallpapers, setups and screenshots, collected in one place.</p>
+                    <span class="hint">/photos</span>
                 </a>
-
-
-                <a class="hobby-link" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer" aria-label="Open Photography profile">
-                    <div class="hobby-card" data-category="photography">
-                        <div class="hobby-icon">O</div>
-                        <h3>Photography</h3>
-                        <p>capturing moments. light, shadow, composition. seeing the world through a lens.</p>
-                    </div>
+                <a class="card" data-c="photography" href="https://www.instagram.com/inknsyntax/" target="_blank" rel="noopener noreferrer">
+                    <span class="icon" aria-hidden="true">O</span>
+                    <h3>Photography</h3>
+                    <p>capturing moments. light, shadow, composition. seeing the world through a lens.</p>
+                    <span class="hint">instagram ↗</span>
                 </a>
-
-                <a class="hobby-link" href="https://github.com/inknsyntax" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
-                    <div class="hobby-card" data-category="coding">
-                        <div class="hobby-icon">{ }</div>
-                        <h3>Coding</h3>
-                        <p>building ideas into reality. problem solving through elegant solutions and clean code.</p>
-                    </div>
+                <a class="card" data-c="coding" href="https://github.com/inknsyntax" target="_blank" rel="noopener noreferrer">
+                    <span class="icon" aria-hidden="true">{ }</span>
+                    <h3>Coding</h3>
+                    <p>building ideas into reality. problem solving through elegant solutions and clean code.</p>
+                    <span class="hint">github ↗</span>
                 </a>
-
-                <a class="hobby-link" href="https://discord.com/users/1382187068373074001" target="_blank" rel="noopener noreferrer" aria-label="Open Discord profile for gaming">
-                    <div class="hobby-card" data-category="gaming">
-                        <div class="hobby-icon">[]</div>
-                        <h3>Gaming</h3>
-                        <p>unwinding with friends, story worlds, and a little competitive chaos.</p>
-                    </div>
-                </a>
-
+                <div class="card" data-c="gaming">
+                    <span class="icon" aria-hidden="true">[]</span>
+                    <h3>Gaming</h3>
+                    <p>unwinding with friends, story worlds, and a little competitive chaos.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Section 6: Contact -->
-        <section id="contact" class="content-block center-text">
+        <section id="contact" class="block reveal center">
             <p>if you found something interesting, reach out.</p>
             <p class="dim">or don't. that's fine too.</p>
-            <a href="https://discord.com/users/1382187068373074001" class="contact-btn">send_signal()</a>
+            <a class="btn" href="mailto:inknsyntax@gmail.com">send_signal()</a>
         </section>
 
         <footer>
-            <div class="footer-message"><span class="dim">// stay calm and keep building</span></div>
+            <p class="dim">// stay calm and keep building</p>
+            <p class="dim">© <span id="year">2026</span> ink &amp; syntax · <a href="https://github.com/inknsyntax" target="_blank" rel="noopener noreferrer">view source</a></p>
         </footer>
-    </div>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
