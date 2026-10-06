@@ -3,123 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Visual Gallery</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --accent-color: #38bdf8;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-
-        section {
-            max-width: 1200px;
-            margin: 0 auto 50px auto;
-        }
-
-        h2 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* The Magic Grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            grid-gap: 15px;
-        }
-
-        .photo-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .photo-card:hover {
-            transform: scale(1.02);
-        }
-
-        .photo-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover; /* Keeps images from stretching */
-            display: block;
-        }
-
-        .caption {
-            padding: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-    </style>
+    <title>/photos · Ink &amp; Syntax</title>
+    <meta name="description" content="Wallpapers, setups, photos and screenshots collected by Ink &amp; Syntax.">
+    <meta name="theme-color" content="#1a1a1a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a1a1a'/%3E%3Ctext x='4' y='22' font-family='monospace' font-size='16' fill='%23a8b8a8'%3E%3E_%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <header>
-        <h1>My Personal Media Hub</h1>
-        <p>A collection of memories, work, and art</p>
+    <div class="crt" aria-hidden="true"></div>
+    <header class="topbar">
+        <nav aria-label="Primary">
+            <a href="index.html">← ~/home</a>
+            <a href="index.html#projects">./projects</a>
+            <a href="index.html#contact">contact</a>
+        </nav>
     </header>
 
-    <section id="wallpapers">
-        <h2>Wallpaper Collage</h2>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="https://media.discordapp.net/attachments/927526037963833344/1493464817749721168/beautiful-cherry-blossoms-trees-blooming-spring_335224-878.png?ex=69df10ff&is=69ddbf7f&hm=c049f55e96dbab95f75107d6459fc7f1800bfdbcb575bd27685a4920ea0af453&=&format=webp&quality=lossless&width=666&height=444" alt="Wallpaper 1">
-                <div class="caption">Neon Sunset</div>
-            </div>
-            </div>
-    </section>
+    <main class="container page">
+        <h1>/photos</h1>
+        <p class="subtitle">wallpapers, setups, moments and the occasional boss fight.</p>
+        <div id="sections"></div>
+    </main>
 
-    <section id="codespaces">
-        <h2>Codespaces</h2>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="https://via.placeholder.com/400x300" alt="Setup 1">
-                <div class="caption">Late Night Logic</div>
-            </div>
-        </div>
-    </section>
+    <dialog id="lb" aria-label="Photo viewer">
+        <img alt="" id="lb-img">
+        <p id="lb-cap" class="dim"></p>
+    </dialog>
 
-    <section id="photography">
-        <h2>Photography</h2>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="https://via.placeholder.com/400x300" alt="Photo 1">
-                <div class="caption">Nature Walk</div>
-            </div>
-        </div>
-    </section>
+    <script>
+        // 1) Put image files in an /images folder in your repo.
+        // 2) Add one line per photo: { src: 'images/name.webp', alt: 'what is in it', caption: 'short title' }
+        // Empty sections show a placeholder tile instead of a broken image.
+        const GALLERY = [
+            { id: 'wallpapers',  title: 'wallpaper_collage',  items: [] },
+            { id: 'codespaces',  title: 'codespaces',         items: [] },
+            { id: 'photography', title: 'photography',        items: [] },
+            { id: 'gaming',      title: 'gaming_screenshots', items: [] }
+        ];
 
-    <section id="gaming">
-        <h2>Gaming Screenshots</h2>
-        <div class="gallery-grid">
-            <div class="photo-card">
-                <img src="https://via.placeholder.com/400x300" alt="Game 1">
-                <div class="caption">Boss Fight Victory</div>
-            </div>
-        </div>
-    </section>
+        const root = document.getElementById('sections');
+        const lb = document.getElementById('lb');
 
+        GALLERY.forEach(sec => {
+            const s = document.createElement('section');
+            s.id = sec.id;
+            const h = document.createElement('h2');
+            h.textContent = sec.title;
+            const grid = document.createElement('div');
+            grid.className = 'gallery';
+
+            if (!sec.items.length) {
+                const e = document.createElement('div');
+                e.className = 'shot empty';
+                e.textContent = `no files yet. add images to /images and list them in GALLERY.${sec.id}`;
+                grid.append(e);
+            }
+            sec.items.forEach(it => {
+                const fig = document.createElement('figure');
+                fig.className = 'shot';
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.setAttribute('aria-label', 'View larger: ' + it.caption);
+                const img = document.createElement('img');
+                img.src = it.src; img.alt = it.alt || it.caption;
+                img.loading = 'lazy'; img.width = 400; img.height = 300;
+                b.append(img);
+                b.addEventListener('click', () => {
+                    document.getElementById('lb-img').src = it.src;
+                    document.getElementById('lb-img').alt = img.alt;
+                    document.getElementById('lb-cap').textContent = it.caption;
+                    lb.showModal();
+                });
+                const cap = document.createElement('figcaption');
+                cap.textContent = it.caption;
+                fig.append(b, cap);
+                grid.append(fig);
+            });
+            s.append(h, grid);
+            root.append(s);
+        });
+
+        lb.addEventListener('click', () => lb.close());
+    </script>
 </body>
 </html>
