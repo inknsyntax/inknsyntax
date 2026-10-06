@@ -1,206 +1,142 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Lofi audio toggle
-    const musicToggle = document.getElementById('music-toggle');
-    const lofiAudio = new Audio('https://cdn.pixabay.com/audio/2022/10/30/audio_f52c9faa72.mp3');
-    lofiAudio.loop = true;
-    lofiAudio.preload = 'none';
+(() => {
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const store = {
+        get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+        set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }
+    };
 
-    function setMusicLabel(isPlaying) {
-        if (!musicToggle) return;
-        musicToggle.textContent = `♫ lofi_radio_v1.mp3 [${isPlaying ? 'playing' : 'paused'}]`;
-        musicToggle.classList.toggle('playing', isPlaying);
+    // Set to your own file (e.g. 'audio/lofi.mp3') to stop depending on Pixabay.
+    const AUDIO_SRC = 'https://cdn.pixabay.com/audio/2022/10/30/audio_f52c9faa72.mp3';
+
+    document.documentElement.classList.add('js');
+    if (store.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+
+    // Clock + year
+    const clock = $('#clock');
+    const tick = () => { if (clock) clock.textContent = new Date().toLocaleTimeString('en-GB'); };
+    tick(); setInterval(tick, 1000);
+    const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
+
+    // Music
+    const btn = $('#music-toggle');
+    let audio = null;
+    const label = state => {
+        if (!btn) return;
+        btn.textContent = `♫ lofi_radio_v1.mp3 [${state}]`;
+        btn.classList.toggle('on', state === 'playing');
+        btn.setAttribute('aria-pressed', String(state === 'playing'));
+    };
+    async function toggleMusic() {
+        if (!audio) { audio = new Audio(AUDIO_SRC); audio.loop = true; audio.volume = 0.6; }
+        try {
+            if (audio.paused) { await audio.play(); label('playing'); return 'playing'; }
+            audio.pause(); label('paused'); return 'paused';
+        } catch { label('tap to retry'); return 'unavailable (check the audio file)'; }
+    }
+    if (btn) btn.addEventListener('click', toggleMusic);
+
+    // Reveal on scroll
+    const reveals = $$('.reveal');
+    if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach(el => el.classList.add('in'));
+    } else {
+        const io = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }), { threshold: 0.1 });
+        reveals.forEach(el => io.observe(el));
     }
 
-    if (musicToggle) {
-        setMusicLabel(false);
-        musicToggle.addEventListener('click', async () => {
-            try {
-                if (lofiAudio.paused) {
-                    await lofiAudio.play();
-                    setMusicLabel(true);
-                } else {
-                    lofiAudio.pause();
-                    setMusicLabel(false);
-                }
-            } catch (error) {
-                setMusicLabel(false);
-                musicToggle.textContent = '♫ lofi_radio_v1.mp3 [tap to retry]';
-            }
+    // Typing: full text always stays in the DOM (hidden letters, not removed), so
+    // screen readers, search engines and layout all see the finished sentence.
+    if (!reduce && 'IntersectionObserver' in window) {
+        const tio = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) { type(e.target); tio.unobserve(e.target); }
+        }), { threshold: 0.2 });
+        $$('.type').forEach(p => {
+            const text = p.textContent;
+            const on = document.createElement('span');
+            const off = document.createElement('span');
+            off.className = 't-off'; off.textContent = text;
+            p.textContent = ''; p.append(on, off);
+            tio.observe(p);
         });
     }
-
-    lofiAudio.addEventListener('ended', () => setMusicLabel(false));
-
-    // Smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    // Typing Effect for About Section
-    const typeWriterElements = document.querySelectorAll('.terminal-body p');
-    
-    // Simple intersection observer to trigger typing when scrolled into view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                typeEffect(entry.target);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    typeWriterElements.forEach(el => {
-        if (!el.classList.contains('typed')) {
-            el.dataset.text = el.innerText;
-            el.innerText = '';
-            // Only observe if it has text
-            if(el.dataset.text.trim().length > 0) {
-                 observer.observe(el);
-            }
-        }
-    });
-
-    function typeEffect(element) {
-        const text = element.dataset.text;
+    function type(p) {
+        const [on, off] = p.children;
+        const text = on.textContent + off.textContent;
         let i = 0;
-        const speed = 40; // typing speed in ms
-
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed + (Math.random() * 30));
-            } else {
-                element.classList.add('typed');
-            }
-        }
-        type();
+        (function step() {
+            if (i >= text.length) { off.remove(); return; }
+            i++;
+            on.textContent = text.slice(0, i);
+            off.textContent = text.slice(i);
+            setTimeout(step, 28 + Math.random() * 25);
+        })();
     }
 
-    // Hobby cards animation on scroll
-    const hobbyCards = document.querySelectorAll('.hobby-card');
-    const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 50);
-                cardObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.3 });
+    // Terminal
+    const out = $('#term-out'), input = $('#cmd-input'), term = $('#term');
+    if (out && input) {
+        const history = []; let pos = 0;
+        const print = (text, cls = '') => {
+            const p = document.createElement('p');
+            p.textContent = text; if (cls) p.className = cls;
+            out.append(p);
+            while (out.children.length > 40) out.firstChild.remove();
+            out.scrollTop = out.scrollHeight;
+        };
+        const jump = id => { const el = document.getElementById(id); if (el) el.scrollIntoView(); };
+        const sections = ['about', 'projects', 'now', 'entry', 'hobbies', 'contact'];
 
-    hobbyCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(10px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        cardObserver.observe(card);
-    });
+        const cmds = {
+            help: () => print('commands: ' + Object.keys(cmds).join(', ')),
+            about: () => jump('about'),
+            projects: () => jump('projects'),
+            now: () => jump('now'),
+            poem: () => jump('entry'),
+            hobbies: () => jump('hobbies'),
+            contact: () => jump('contact'),
+            photos: () => { print('opening /photos ...'); location.href = 'Photos.html'; },
+            whoami: () => print('inknsyntax: poet, coder, chess player, collector of quiet moments'),
+            ls: () => print(sections.join('/  ') + '/  Photos.html'),
+            cat: args => {
+                if (args[0] === 'now.txt') print('learning: human consciousness | working_on: poetry | thinking_about: life');
+                else print(`cat: ${args[0] || ''}: No such file`, 'err');
+            },
+            music: async () => print('lofi_radio_v1.mp3 is ' + await toggleMusic()),
+            theme: () => {
+                const light = document.documentElement.dataset.theme !== 'light';
+                document.documentElement.dataset.theme = light ? 'light' : '';
+                store.set('theme', light ? 'light' : 'dark');
+                print('theme: ' + (light ? 'light' : 'dark'));
+            },
+            history: () => history.forEach((h, i) => print(`${i + 1}  ${h}`)),
+            clear: () => { out.textContent = ''; },
+            sudo: () => print('nice try. permission denied, but you are welcome here.', 'err')
+        };
 
-    // Clock
-    function updateClock() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const clockEl = document.getElementById('clock');
-        if (clockEl) {
-            clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+        function run(line) {
+            const [name, ...args] = line.split(/\s+/);
+            print('$ ' + line, 'echo');
+            if (cmds[name]) cmds[name](args);
+            else print(`bash: ${name}: command not found. try help`, 'err');
         }
-    }
-    
-    // Update immediately, then every second
-    updateClock();
-    setInterval(updateClock, 1000);
 
-    // Command Input
-    const cmdInput = document.getElementById('cmd-input');
-    if (cmdInput) {
-        cmdInput.addEventListener('keydown', (e) => {
+        input.addEventListener('keydown', e => {
             if (e.key === 'Enter') {
-                const cmd = cmdInput.value.trim().toLowerCase();
-                handleCommand(cmd);
-                cmdInput.value = '';
+                const line = input.value.trim().toLowerCase();
+                input.value = '';
+                if (!line) return;
+                history.push(line); pos = history.length;
+                run(line);
+            } else if (e.key === 'ArrowUp' && history.length) {
+                e.preventDefault(); pos = Math.max(0, pos - 1); input.value = history[pos];
+            } else if (e.key === 'ArrowDown' && history.length) {
+                e.preventDefault(); pos = Math.min(history.length, pos + 1); input.value = history[pos] || '';
             }
         });
+        term.addEventListener('click', () => input.focus());
     }
-
-    function handleCommand(cmd) {
-        if (!cmd) return;
-        
-        // Simple command parsing
-        switch(cmd) {
-            case 'help':
-                alert('Commands: help, about, hobbies, projects, contact, clear');
-                break;
-            case 'about':
-                const about = document.getElementById('about');
-                if(about) about.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case 'hobbies':
-                const hobbies = document.getElementById('hobbies');
-                if(hobbies) hobbies.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case 'projects':
-                const projects = document.getElementById('projects');
-                if(projects) projects.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case 'contact':
-                const contact = document.getElementById('contact');
-                if(contact) contact.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case 'clear':
-                window.location.reload();
-                break;
-            default:
-                // Simulate "command not found" 
-                const originalPlaceholder = cmdInput ? cmdInput.placeholder : '';
-                if (cmdInput) {
-                    cmdInput.placeholder = `bash: ${cmd}: command not found`;
-                    cmdInput.classList.add('error');
-                    setTimeout(() => {
-                        cmdInput.placeholder = originalPlaceholder;
-                        cmdInput.classList.remove('error');
-                    }, 2000);
-                }
-        }
-    }
-
-    // Content blocks fade-in on scroll
-    const contentBlocks = document.querySelectorAll('.content-block');
-    const blockObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                blockObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    contentBlocks.forEach(block => {
-        block.style.opacity = '0';
-        block.style.transform = 'translateY(20px)';
-        block.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        blockObserver.observe(block);
-    });
-
-    // Gentle title animation on page load
-    const titleElement = document.querySelector('.glitch');
-    if (titleElement) {
-        titleElement.style.opacity = '0';
-        titleElement.style.transform = 'translateY(10px)';
-        setTimeout(() => {
-            titleElement.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            titleElement.style.opacity = '1';
-            titleElement.style.transform = 'translateY(0)';
-        }, 100);
-    }
-});
+})();
